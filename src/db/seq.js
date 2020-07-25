@@ -4,19 +4,27 @@
  */
 
 const Sequelize = require('sequelize')
+const { MYSQL_CONF } = require('../conf/db')
+const { isProd, isTest } = require('../utils/env')
 
+const { host, user, password, database } = MYSQL_CONF
 const conf = {
-    host: 'localhost',
+    host,
     dialect: 'mysql'
 }
 
-const seq = new Sequelize('koa2_weibo_db', 'root', 'lyp82nLF', conf)
+if (isTest) {
+    conf.loggin = () => {}
+}
 
-//test 
-// seq.authenticate().then(()=> {
-//     console.log("ok")
-// }).catch(() => {
-//     console.log("error")
-// })
+if (isProd) {
+    conf.pool = {
+        max: 5,
+        min: 0,
+        idle: 10000
+    }
+}
+
+const seq = new Sequelize(database, user, password, conf)
 
 module.exports = seq 

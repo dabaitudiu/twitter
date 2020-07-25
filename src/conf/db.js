@@ -36,7 +36,7 @@ if (isProd) {
     }
 }
 
- module.exports = {
-     REDIS_CONF,
-     MYSQL_CONF
- }
+module.exports = {
+    REDIS_CONF,
+    MYSQL_CONF
+}
