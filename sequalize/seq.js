@@ -8,10 +8,10 @@ const conf = {
 const seq = new Sequelize('koa2_weibo_db', 'root', 'lyp82nLF', conf)
 
 //test 
-seq.authenticate().then(()=> {
-    console.log("ok")
-}).catch(() => {
-    console.log("error")
-})
+// seq.authenticate().then(()=> {
+//     console.log("ok")
+// }).catch(() => {
+//     console.log("error")
+// })
 
 module.exports = seq 
