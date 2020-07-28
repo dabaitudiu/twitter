@@ -1,0 +1,47 @@
+<%- include('layout/header', { title: 'Twitter - Sign in', isNarrow: true })%>
+
+<h1>Sign in</h1>
+<% if (locals.isLogin) { %>
+    <p><%= locals.userName%> You have already signed in, please visit <a href="/"> Homepage</a></p>
+<% } else { %>
+    <form>
+        <div class="form-group">
+            <input type="text" class="form-control" id="input-username" placeholder="username...">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="input-password" placeholder="password...">
+        </div>
+        <button type="submit" class="btn btn-primary" id="btn-submit">Sign in</button>
+        &nbsp;
+        <a href="/register">Register >></a>
+    </form>
+
+    <script>
+        $(function() {
+            var $inputUserName = $('#input-username')
+            var $inputPassword = $('#input-password')
+            $('#btn-submit').click(function(e) {
+                // Prevent submitting default from
+                e.preventDefault()
+                const userName = $inputUserName.val()
+                const password = $inputPassword.val()
+
+                // submit data
+                ajax.post('/api/user/login', {
+                    userName,
+                    password
+                }, function(err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    // redirect to specific url
+                    var redirectUrl = $.query.get('url') || '/'
+                    location.href = redirectUrl
+                })
+            })
+        })
+    </script>
+<% } %>
+
+<%- include('layout/footer')%>

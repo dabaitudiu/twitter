@@ -1,0 +1,125 @@
+<%- include('layout/header', { title: 'Twitter - Sign up', isNarrow: true })%>
+
+<h1>Sign in</h1>
+<% if (locals.isLogin) { %>
+    <p><%= locals.userName%> You have already signed in, please visit <a href="/">Home</a></p>
+<% } else { %>
+    <form>
+        <div class="form-group">
+            <input type="text" class="form-control" id="input-username" placeholder="username..">
+            <small id="span-username-info" class="form-text text-muted"></small>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="input-password" placeholder="password">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="input-password-repeat" placeholder="re-type password">
+            <small id="span-password-repeat-info" class="form-text text-muted"></small>
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="select-gender">
+                <option value="1">male</option>
+                <option value="2">female</option>
+                <option value="3">secret</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" id="btn-submit">Sign up</button>
+        &nbsp;
+        <a href="/login">I have an account, sign in here>></a>
+    </form>
+
+    <script>
+        $(function() {
+            var $inputUserName = $('#input-username')
+            var $spanUserNameInfo = $('#span-username-info')
+            var $inputPassword = $('#input-password')
+            var $inputPasswordRepeat = $('#input-password-repeat')
+            var $spanPasswordRepeatInfo = $('#span-password-repeat-info')
+            var $selectGender = $('#select-gender')
+            var userNameTimeoutId
+            var passwordTimeoutId
+            var isPasswordSame = false // default: two input are different 
+            var isUserNameExist = true // default: user existed
+
+            // listen: user input
+            $inputUserName.on('input', function() {
+                // prevent shaking
+                if (userNameTimeoutId) {
+                    clearTimeout(userNameTimeoutId)
+                }
+                userNameTimeoutId = setTimeout(function() {
+                    // judge whether user exited
+                    var userName = $inputUserName.val()
+                    ajax.post('/api/user/isExist', {
+                        userName
+                    }, function(err, data) {
+                        $spanUserNameInfo.show()
+                        if (err) {
+                            $spanUserNameInfo.text('username available')
+                            isUserNameExist = false
+                        } else {
+                            $spanUserNameInfo.text('username existed, please sign in or switch another username')
+                            isUserNameExist = true
+                        }
+                    })
+                }, 500)
+            })
+
+            // listen: password input
+            $inputPasswordRepeat.on('input', function () {
+                // prevent shaking
+                if (passwordTimeoutId) {
+                    clearTimeout(passwordTimeoutId)
+                }
+                passwordTimeoutId = setTimeout(function() {
+                    var password = $inputPassword.val()
+                    var passwordRepeat = $inputPasswordRepeat.val()
+                    $spanPasswordRepeatInfo.show()
+                    if (password === passwordRepeat) {
+                        $spanPasswordRepeatInfo.text('usernames same')
+                        isPasswordSame = true
+                    } else {
+                        $spanPasswordRepeatInfo.text('usernames not the same')
+                        isPasswordSame = false
+                    }
+                }, 500)
+            })
+
+            // register affairs
+            $('#btn-submit').click(function(e) {
+                // prevent default form submission
+                e.preventDefault()
+
+                // check
+                if (isUserNameExist) {
+                    alert('username existed')
+                    return
+                }
+                if (!isPasswordSame) {
+                    alert('input passwords are different')
+                    return
+                }
+
+                var userName = $inputUserName.val()
+                var password = $inputPassword.val()
+                var gender = parseInt($selectGender.val())
+
+                // submit data
+                ajax.post('/api/user/register', {
+                    userName,
+                    password,
+                    gender
+                }, function(err, data) {
+                    if (err) {
+                        alert(err)
+                        return
+                    }
+                    alert('register succeed, please sign in')
+                    location.href = '/login'
+                })
+            })
+        })
+    </script>
+<% } %>
+
+<%- include('layout/footer')%>

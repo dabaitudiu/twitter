@@ -9,11 +9,12 @@ const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 
 const { REDIS_CONF } = require('./conf/db')
-const { isProd } = require('../utils/env')
+const { isProd } = require('./utils/env')
 
 // router
 const index = require('./routes/index')
-const users = require('./routes/users')
+const userAPIRouter = require('./routes/api/user')
+const userViewRouter = require('./routes/view/user')
 const errorViewRouter = require('./routes/view/error')
 
 
@@ -56,13 +57,12 @@ app.use(session({
 
 // register router
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
+
 app.use(errorViewRouter.routes(), index.allowedMethods()) // 404 routes register at bottom
 
 
-// routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
