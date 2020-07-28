@@ -3,13 +3,14 @@
  * @author Zhenhan Li
  */
 
-const { getUserInfo, createUser } = require('../service/user')
+const { getUserInfo, createUser, deleteUser } = require('../service/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const { 
     registerUserNameNotExistInfo, 
     registerUserNameExistInfo,
     registerFailInfo,
-    loginFailInfo
+    loginFailInfo,
+    deleteUserFailInfo
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/cryp')
 
@@ -79,8 +80,21 @@ async function login(ctx, userName, password) {
     return new SuccessModel()
 }
 
+/**
+ * delete current user
+ * @param {string} userName user's name
+ */
+async function deleteCurrentUser(userName) {
+    const result = await deleteUser(userName)
+    if (result) {
+        return new SuccessModel()
+    }
+    return new ErrorModel(deleteUserFailInfo)
+}
+
 module.exports = {
     isExist,
     register,
-    login
+    login,
+    deleteCurrentUser
 }

@@ -55,7 +55,22 @@ async function createUser({ userName, password, gender = 3, nickName}) {
     return result.dataValues
 }
 
+/**
+ * delete user
+ * @param {string} userName 
+ */
+async function deleteUser(userName) {
+    const result = await User.destroy({
+        where: {
+            userName
+        }
+    })
+    // result is deleted row numbers
+    return result > 0
+}
+
 module.exports = {
     getUserInfo,
-    createUser
+    createUser,
+    deleteUser
 }
