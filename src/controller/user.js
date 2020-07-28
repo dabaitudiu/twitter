@@ -3,9 +3,14 @@
  * @author Zhenhan Li
  */
 
-const { getUserInfo } = require('../service/user')
+const { getUserInfo, createUser } = require('../service/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
-const { registerUserNameNotExistInfo } = require('../model/ErrorInfo')
+const { 
+    registerUserNameNotExistInfo, 
+    registerUserNameExistInfo,
+    registerFailInfo
+} = require('../model/ErrorInfo')
+const doCrypto = require('../utils/cryp')
 
 
 /**
@@ -25,6 +30,32 @@ async function isExist(userName) {
     }
 }
 
+/**
+ * 
+ * @param {string} userName
+ * @param {string} password
+ * @param {number} gender (1 male, 2 female, 3 secret)
+ */
+async function register({ userName, password, gender}) {
+    const userInfo = await getUserInfo(userName) 
+    if (userInfo) {
+        return new ErrorModel(registerUserNameExistInfo)
+    }
+
+    try {
+        await createUser({
+            userName,
+            password: doCrypto(password),
+            gender
+        })
+        return new SuccessModel()
+    } catch (ex) {
+        console.error(ex.message, ex.stack)
+        return new ErrorModel(registerFailInfo)
+    }
+}
+
 module.exports = {
-    isExist
+    isExist,
+    register
 }

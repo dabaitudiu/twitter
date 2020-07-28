@@ -10,6 +10,7 @@ const redisStore = require('koa-redis')
 
 const { REDIS_CONF } = require('./conf/db')
 const { isProd } = require('./utils/env')
+const { SESSION_SECRET_KEY } = require('./conf/secretKeys')
 
 // router
 const index = require('./routes/index')
@@ -41,7 +42,7 @@ app.use(views(__dirname + '/views', {
 }))
 
 // session config
-app.keys = ['DAbai!#^tU']
+app.keys = [SESSION_SECRET_KEY]
 app.use(session({
     key: 'weibo.sid', // cookie name, default = koa.sid
     prefix: 'weibo:sess:', // redis key prefix, default = koa.sess
