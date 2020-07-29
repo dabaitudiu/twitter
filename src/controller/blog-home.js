@@ -6,6 +6,7 @@
 const { createBlog } = require('../service/blog')
 const { SuccessModel } = require('../model/ResModel')
 const { createBlogFailInfo } = require('../model/ErrorInfo')
+const xss = require('xss')
 
 /**
   * create tweet
@@ -17,7 +18,7 @@ async function create({ userId, content, image }) {
         // create tweet
         const blog = await createBlog({
             userId,
-            content,
+            content: xss(content),
             image
         })
         return new SuccessModel(blog)
