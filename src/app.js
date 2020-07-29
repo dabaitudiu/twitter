@@ -15,7 +15,8 @@ const { isProd } = require('./utils/env')
 const { SESSION_SECRET_KEY } = require('./conf/secretKeys')
 
 // router
-const index = require('./routes/index')
+const blogHomeAPIRouter = require('./routes/api/blog-home')
+const blogViewRouter = require('./routes/view/blog')
 const utilsAPIRouter = require('./routes/api/utils')
 const userAPIRouter = require('./routes/api/user')
 const userViewRouter = require('./routes/view/user')
@@ -61,12 +62,13 @@ app.use(session({
 }))
 
 // register router
-app.use(index.routes(), index.allowedMethods())
+app.use(blogHomeAPIRouter.routes(), blogHomeAPIRouter.allowedMethods())
+app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 
-app.use(errorViewRouter.routes(), index.allowedMethods()) // 404 routes register at bottom
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) // 404 routes register at bottom
 
 
 
