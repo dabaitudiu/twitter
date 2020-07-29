@@ -5,6 +5,7 @@
 
 
 const { DEFAULT_PICTURE } = require('../conf/constant')
+const { timeFormat } = require('../utils/dt')
 
 /**
   * user default avatar
@@ -35,6 +36,32 @@ function formatUser(list) {
     return _formatUserPicture(list)
 }
 
+
+/**
+ * format time
+ * @param {Object} obj tweet data
+ */
+function _formatDBTime(obj) {
+    obj.createdAtFormat = timeFormat(obj.createdAt)
+    obj.updatedAtFormat = timeFormat(obj.updatedAt)
+    return obj
+}
+
+/**
+ * format blog info 
+ * @param {Array | Object} list tweet list or single tweet
+ */
+function formatBlog(list) {
+    if (list == null) return list
+
+    if (list instanceof Array) {
+        return list.map(_formatDBTime)
+    }
+
+    return _formatDBTime(list)
+}
+
 module.exports = {
-    formatUser
+    formatUser,
+    formatBlog
 }
