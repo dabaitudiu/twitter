@@ -56,5 +56,22 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     })
 })
 
+//square 
+router.get('/square', loginRedirect, async (ctx, next) => {
+    // retrieve twitter data, first page
+    const result = await getSquareBlogList(0)
+    const { isEmpty, blogList, pageSize, pageIndex, count } = result.data || {}
+
+    await ctx.render('square', {
+        blogData: {
+            isEmpty,
+            blogList,
+            pageSize,
+            pageIndex,
+            count
+        }
+    })
+})
+
 module.exports = router
 
