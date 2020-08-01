@@ -3,10 +3,11 @@
  * @author Zhenhan Li
  */
 
-const { createBlog } = require('../service/blog')
+const { createBlog, getFollowersBlogList } = require('../service/blog')
 const { SuccessModel } = require('../model/ResModel')
 const { createBlogFailInfo } = require('../model/ErrorInfo')
 const xss = require('xss')
+const { PAGE_SIZE } = require('../conf/constant')
 
 /**
   * create tweet
@@ -28,6 +29,32 @@ async function create({ userId, content, image }) {
     }
 }
 
+/**
+ * get twitter home page
+ * @param {num} userId user's id
+ * @param {number} pageIndex page idex
+ */
+async function getHomeBlogList(userId, pageIndex = 0) {
+    const result = await getFollowersBlogList(
+        {
+            userId,
+            pageIndex,
+            pageSize: PAGE_SIZE
+        }
+    )
+    const { count, blogList } = result
+
+    // 返回
+    return new SuccessModel({
+        isEmpty: blogList.length === 0,
+        blogList,
+        pageSize: PAGE_SIZE,
+        pageIndex,
+        count
+    })
+}
+
 module.exports = {
-    create
+    create,
+    getHomeBlogList
 }

@@ -9,10 +9,45 @@ const { getProfileBlogList } = require('../../controller/blog-profile')
 const { getSquareBlogList } = require('../../controller/blog-square')
 const { isExist } = require('../../controller/user')
 const { getFans, getFollowers } = require('../../controller/user-relation')
+const { getHomeBlogList } = require('../../controller/blog-home')
 
 // index
 router.get('/', loginRedirect, async (ctx, next) => {
-    await ctx.render('index', {})
+    const userInfo = ctx.session.userInfo
+    const { id: userId } = userInfo
+
+    // retrieve first page data
+    const result = await getHomeBlogList(userId)
+    const { isEmpty, blogList, pageSize, pageIndex, count } = result.data
+
+    // get followers
+    const fansResult = await getFans(userId)
+    const { count: fansCount, userList:fansList } = fansResult.data
+
+    // get following
+    const followersResult = await getFollowers(userId)
+    const { count: followersCount, followersList } = followersResult.data
+
+    await ctx.render('index', {
+        userData: {
+            userInfo,
+            fansData: {
+                count: fansCount,
+                list: fansList
+            },
+            followersData: {
+                count: followersCount,
+                list: followersList
+            }
+        },
+        blogData: {
+            isEmpty,
+            blogList,
+            pageSize,
+            pageIndex,
+            count
+        }
+    })
 })
 
 // visit personal home page
