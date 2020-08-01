@@ -15,7 +15,6 @@ const { SuccessModel } = require('../model/ResModel')
   */
 async function getProfileBlogList(userName, pageIndex = 0) {
 
-    console.log('controller: ', userName)
     // service
     const result = await getBlogListByUser({
         userName,
