@@ -4,7 +4,7 @@
  */
 
 const server = require('../server')
-const { COOKIE } = require('../testUserInfo')
+const { CIRI_COOKIE } = require('../testUserInfo')
 
 // store tweet id
 let BLOG_ID = ''
@@ -20,7 +20,7 @@ test('create index tweet, should succeed', async () => {
                                 content,
                                 image
                             })
-                            .set('cookie', COOKIE)
+                            .set('cookie', CIRI_COOKIE)
 
     expect(res.body.errno).toBe(0)
     expect(res.body.data.content).toBe(content)
