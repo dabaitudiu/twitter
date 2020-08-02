@@ -25,7 +25,6 @@ async function createBlog({ userId, content, image }) {
  */
 async function getBlogListByUser({ userName, pageIndex = 0, pageSize = 10}) {
     // query condition
-    console.log('service/getBlogListByUser/userName: ', userName)
     const userWhereOpts = {}
     if (userName) {
         userWhereOpts.userName = userName
