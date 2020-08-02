@@ -10,7 +10,7 @@ const { format } = require('date-fns')
  * @param {string} str time string
  */
 function timeFormat(str) {
-    return format(new Date(str), 'MM.dd HH: mm')
+    return format(new Date(str), 'MM.dd HH: mm', 'America/Los_Angeles')
 }
 module.exports = {
     timeFormat
