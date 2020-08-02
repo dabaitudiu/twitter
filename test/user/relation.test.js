@@ -52,6 +52,19 @@ test('retrieve ciri\'s following list, should have aa', async () => {
     expect(hasUserName).toBe(true)
 })
 
+// test get at list
+test('get ciri\'s at list, should success', async ()=> {
+    const res = await server.get('/api/user/getAtList')
+                            .set('cookie', CIRI_COOKIE)
+    const atList = res.body
+    const hasUserName = atList.some(item => {
+        // 'nickName - userName'
+        return item.indexOf(`- ${AA_USER_NAME}`) > 0
+    })
+    expect(hasUserName).toBe(true)
+})
+
+
 // unfollow
 test('test unfollow: ciri unfollow aa', async () => {
     const res = await server.post('/api/profile/unFollow')
@@ -59,6 +72,5 @@ test('test unfollow: ciri unfollow aa', async () => {
                             .set('cookie', CIRI_COOKIE)
     expect(res.body.errno).toBe(0)
 })
-
 
 
