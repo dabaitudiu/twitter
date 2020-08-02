@@ -4,7 +4,7 @@
  */
 
 
-const { DEFAULT_PICTURE } = require('../conf/constant')
+const { DEFAULT_PICTURE, REG_FOR_AT_WHO } = require('../conf/constant')
 const { timeFormat } = require('../utils/dt')
 
 /**
@@ -48,6 +48,24 @@ function _formatDBTime(obj) {
 }
 
 /**
+ * format tweet content
+ * @param {Object} obj twitter data object
+ */
+function _formatContent(obj) {
+    obj.contentFormat = obj.content 
+    
+    // format: '@Ciri- ciri2020' => '<a href = "/profile/ciri">ciri</a>'
+    obj.contentFormat = obj.contentFormat.replace(
+        REG_FOR_AT_WHO,
+        (matchStr, nickName, userName) => {
+            return `<a href = "/profile/${userName}">@${nickName}</a>`
+        }
+    )
+    
+    return obj
+}
+
+/**
  * format blog info 
  * @param {Array | Object} list tweet list or single tweet
  */
@@ -55,11 +73,14 @@ function formatBlog(list) {
     if (list == null) return list
 
     if (list instanceof Array) {
-        return list.map(_formatDBTime)
+        return list.map(_formatDBTime).map(_formatContent)
     }
-
-    return _formatDBTime(list)
+    let result = list 
+    result  = _formatDBTime(list)
+    result = _formatContent(result)
+    return result 
 }
+
 
 module.exports = {
     formatUser,
