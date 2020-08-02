@@ -14,5 +14,5 @@ module.exports = {
 
     AA_ID: 2,
     AA_USER_NAME: 'aa',
-    AA_COOKIE: 'weibo.sid=7YhqW6z_ARTKzD2iSH8-1LUGcKea5ppe; weibo.sid.sig=p-dEXID56LE_O0JuAmtVMZLvN6Y'
+    AA_COOKIE: 'weibo.sid=Eum5HtPh79DV0-AO5E2da7AzrN56g3gQ; weibo.sid.sig=42oEPlU2bp9G5izq3jQAFnSL4tY'
 }
