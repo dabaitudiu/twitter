@@ -1,7 +1,7 @@
 # Instant Share
 
 <p align="center">
-  <img src="https://github.com/dabaitudiu/Instant-Share/blob/master/readme/logo-share.png" width="500">
+  <img src="https://github.com/dabaitudiu/Instant-Share/blob/master/materials/logo-share.png" width="500">
 </p>
 
 
