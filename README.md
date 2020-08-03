@@ -6,7 +6,7 @@
 
 
 Instant Share is
-an extensible, highly modularized and structured backend framework demo for constructing **twitter-like website**. It is embedded with complete and compact unit testing for maintainence and extension. <hr>
+an extensible, highly modularized and structured backend framework demo for constructing **twitter-like website**. After register and login, people can share instant posts, add images, and @others during posting. They can freely change personal info and reponse to the others. Using Sequelize ORM, the database system is easy to maintain or update. The website also uses Redis to save public pages as cache to enhance efficiency.It is embedded with intact unit testing for maintainence and extension. <hr>
 - Keywords: JavaScript, Node.js, Koa2, Redis, MySQL, Sequelize ORM, application architecture, unit testing
 - Demo: http://shareins.xyz
 - Demo Account: {userName: ciri, passWord: ciri}
