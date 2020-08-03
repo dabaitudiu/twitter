@@ -1,6 +1,7 @@
 <%- include('layout/header', { title: 'Twitter - Sign in', isNarrow: true })%>
 
 <h1>Sign in</h1>
+    
 <% if (locals.isLogin) { %>
     <p><%= locals.userName%> You have already signed in, please visit <a href="/"> Homepage</a></p>
 <% } else { %>
@@ -44,4 +45,9 @@
     </script>
 <% } %>
 
-<%- include('layout/footer')%>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.0/js/bootstrap.min.js"></script>
+    <script src="/javascripts/query-object.js"></script>
+
+</body>
+</html>

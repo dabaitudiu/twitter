@@ -51,3 +51,14 @@ textarea {
 .border-bottom {
     border-bottom: 1px solid #f1f1f1;
 }
+
+body, .sticky-footer-wrapper {
+    min-height:100vh;
+ }
+ 
+ .flex-fill {
+    flex:1 1 auto;
+ }
+
+
+  
